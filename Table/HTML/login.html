@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Login to Freefire database</title>
+	<meta charset="UTF-8"></meta>
+	<link rel="stylesheet" type="text/css" href="../fire.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+<body>
+	<form id="hello">
+		<p>Enter your Email</p>
+		<input type="email" name="email" id="email">
+		<p>Enter your password</p>
+		<input type="password" name="password" id="psd">
+        <button type="button" onclick="add()">Add</button>
+		<button type="submit">Login</button>
+	</form>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+    <script>
+    	const firebaseConfig = {
+             apiKey: "AIzaSyCpXCWVFl1SPJxxaDuJJ81JnNU4IbhrMrI",
+             authDomain: "freefire-web-database.firebaseapp.com",
+             databaseURL: "https://freefire-web-database-default-rtdb.firebaseio.com",
+             projectId: "freefire-web-database",
+             storageBucket: "freefire-web-database.appspot.com",
+             messagingSenderId: "468910619546",
+             appId: "1:468910619546:web:9aa2d5b0e72a1b62a31823",
+             measurementId: "G-JFGGC3Z7SW"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+       
+
+        $('#hello').submit(function(e){
+        	e.preventDefault();
+            var inpe = document.getElementById('email').value;
+            var psd2 = document.getElementById('psd').value;
+           
+
+        	 firebase.database().ref("Accounts/Players-Accounts").once("value").then(function(snapshot){
+                var  email = snapshot.val().Email;
+                var psd = snapshot.val().Password;
+
+                var data = snapshot.val();
+                var keys = Object.keys(data);
+                
+                for(var i=0; i<keys.length; i++){
+                    var k = keys[i];
+                    var dat = data[k].Email;
+                    var psd = data[k].Password;
+                    var user = data[k].Username;
+                    var coins = data[k].Coins;
+                    if(dat==inpe && psd2 == psd){
+                        document.write("Hello " + user + ". ");
+                        document.write("Available Bank balance you have is: " + coins)
+                    }
+                    else if(psd2 != psd){
+                        alert("The password you entered was incorrect");
+                    }
+
+                }
+            });
+            });
+
+        function add(){
+            var loc = firebase.database().ref("Accounts/Players-Accounts");
+            var email = document.getElementById("email").value;
+            var psd = document.getElementById("psd").value;
+
+
+            firebase.database().ref("Accounts/Players-Accounts").once("value").then(function(snapshot){
+
+            var dat = snapshot.val();
+            var keys = Object.keys(dat);
+
+                  
+                  for(var i = 0; i<keys.length; i++){
+                    var k = keys[i]; 
+                    var coins = dat[k].Coins;
+                    var email2 = dat[k].Email;
+                    var psd = dat[k].Password;
+
+                    if(email==email2){
+
+                    var serve = firebase.database().ref("Accounts/Players-Accounts/");
+                           
+                    server = serve.push();
+
+           
+                   server.update({
+                        Coins: coins + 500
+
+                   });
+
+                    }
+
+                  }
+                
+                  
+
+});
+            
+            }
+                    
+        
+
+
+            
+             
+            
+
+
+    </script>
+
+
+</body>
+</html>

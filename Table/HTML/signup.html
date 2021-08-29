@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Signup for Freefire Championship</title>
+	<link rel="stylesheet" type="text/css" href="../fire.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+<body>	
+<form id="formo">
+	<p>Email:</p>
+	<input type="email" name="email" class="form-control user" id="user"></input>
+	<p>Create a password</p>
+	<input type="password" name="password" class="form-control psd" id="psd"></input>
+	<p>Retype your password</p>
+	<input type="password" name="password" class="form-control psd2"></input>
+    <p>Enter your fullname</p>
+    <input type="text" name="username" class="form-control user2"></input>
+	<button type="submit" id="submit" >Signup</button>
+</form>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCpXCWVFl1SPJxxaDuJJ81JnNU4IbhrMrI",
+        authDomain: "freefire-web-database.firebaseapp.com",
+        databaseURL: "https://freefire-web-database-default-rtdb.firebaseio.com",
+        projectId: "freefire-web-database",
+        storageBucket: "freefire-web-database.appspot.com",
+        messagingSenderId: "468910619546",
+        appId: "1:468910619546:web:9aa2d5b0e72a1b62a31823",
+        measurementId: "G-JFGGC3Z7SW"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    var serve = firebase.database().ref("Accounts/Players-Accounts/");
+
+
+
+
+
+    $('#formo').submit(function(e) {
+        e.preventDefault();
+
+        server = serve.push();
+        var email2 = document.getElementById("user").value;
+        var money = 0;
+
+           
+           server.update({
+               Email: $('.user').val(),
+               Password: $('.psd').val(),
+               Username: $('.user2').val(),
+               Coins: money
+
+           })
+
+            firebase.database().ref("Accounts/Players-Accounts/").once("value").then(function(snapshot){
+                 var dat = snapshot.val();
+                 var keys = Object.keys(dat);
+                 console.log(dat);
+
+                 for(var i = 0;i<keys.length; i++){
+                    var k = keys[i];
+
+                    var email = dat[k].Email;
+
+
+                    if(email2==email){
+                        document.write("Email already exists in database");
+                    }
+                    else{
+                        document.write("You can signup!!");
+                    }
+
+                 }
+            });
+
+        
+
+    });
+     
+       
+
+   
+
+
+
+
+ 
+
+
+
+</script>
+
+</body>
+</html>
